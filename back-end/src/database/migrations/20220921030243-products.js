@@ -1,7 +1,5 @@
 'use strict';
 
-const { QueryInterface } = require("sequelize/types");
-
 module.exports = {
   /**
    * @param {import('sequelize').QueryInterface} queryInterface 
@@ -12,19 +10,19 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       name: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
       price: {
-        type: DataTypes.DECIMAL(4, 2),
+        type: Sequelize.DECIMAL(4, ),
         allowNull: false
       },
       urlImage: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         defaultValue: ''
       },
