@@ -30,14 +30,14 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const salesProducts = sequelize.define('SalesProducts', attributes, {
+  const SalesProducts = sequelize.define('SalesProducts', attributes, {
     tableName: 'salesProducts',
   });
-  salesProducts.associate = (models) => {
-    salesProducts.belongsTo(models.Sales, { key: 'saleId', as: 'sale' });
+  SalesProducts.associate = (models) => {
+    SalesProducts.belongsTo(models.Sales, { key: 'saleId', as: 'sale' });
   };
-  salesProducts.associate = (models) => {
-    salesProducts.belongsTo(models.Products, { key: 'productId', as: 'product' });
+  SalesProducts.associate = (models) => {
+    SalesProducts.belongsTo(models.Products, { key: 'productId', as: 'product' });
   };
-  return salesProducts;
+  return SalesProducts;
 };
