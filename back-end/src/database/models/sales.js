@@ -55,11 +55,11 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const sales = sequelize.define('Sales', attributes, { tableName: 'sales' });
-  sales.associate = (models) => {
-    sales.belongsTo(models.Users, { key: 'userId', as: 'user' });
-    sales.belongsTo(models.Users, { key: 'sellerId', as: 'seller' });
-    sales.hasMany(models.SalesProducts, { key: 'saleIs', as: 'sale' });
+  const Sales = sequelize.define('Sales', attributes, { tableName: 'sales' });
+  Sales.associate = (models) => {
+    Sales.belongsTo(models.Users, { key: 'userId', as: 'user' });
+    Sales.belongsTo(models.Users, { key: 'sellerId', as: 'seller' });
+    Sales.hasMany(models.SalesProducts, { key: 'saleIs', as: 'sale' });
   };
-  return sales;
+  return Sales;
 };
