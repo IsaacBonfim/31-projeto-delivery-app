@@ -25,9 +25,9 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const products = sequelize.define('Products', attributes, { tableName: 'products' });
-  products.associate = (models) => {
-    products.hasMany(models.SalesProducts, { key: 'productId', as: 'product' });
+  const Products = sequelize.define('Products', attributes, { tableName: 'products' });
+  Products.associate = (models) => {
+    Products.hasMany(models.SalesProducts, { key: 'productId', as: 'product' });
   };
-  return products;
+  return Products;
 };

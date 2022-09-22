@@ -28,10 +28,10 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const users = sequelize.define('Users', attributes, { tableName: 'users' });
-  users.associate = (models) => {
-    users.hasMany(models.Sales, { key: 'userId', as: 'user' });
-    users.hasMany(models.Sales, { key: 'sellerId', as: 'seller' });
+  const User = sequelize.define('Users', attributes, { tableName: 'users' });
+  User.associate = (models) => {
+    User.hasMany(models.Sales, { key: 'userId', as: 'user' });
+    User.hasMany(models.Sales, { key: 'sellerId', as: 'seller' });
   };
-  return users;
+  return User;
 };
