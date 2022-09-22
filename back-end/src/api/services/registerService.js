@@ -1,6 +1,8 @@
-const { User } = require('../../database/models/users');
 import Joi from 'joi';
+import throwError from '../utils/errorHandler';
+
 const md5 = require('md5');
+const { User } = require('../../database/models/users');
 
 const RegisterService = {
   validateUser: (user) => {
@@ -24,7 +26,7 @@ const RegisterService = {
     const user = await User.create({ name, email, password, role: 'customer' });
 
     if (!user) return throwError('conflict', 'All fields must be filled correctly');
-  }
-}
+  },
+};
 
 export default RegisterService;

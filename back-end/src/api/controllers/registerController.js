@@ -1,4 +1,4 @@
-import RegisterService from "../services/registerService";
+import RegisterService from '../services/registerService';
 
 const RegisterController = {
   registerUser: async (req, res, next) => {
@@ -10,7 +10,7 @@ const RegisterController = {
     } catch (error) {
       next(error);
     }
-  }
-}
+  },
+};
 
 export default RegisterController;
