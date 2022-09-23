@@ -5,7 +5,8 @@ const attributes = {
   id: {
     allowNull: false,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    autoIncrement: true
   },
   name: {
     type: DataTypes.STRING,
@@ -28,7 +29,7 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const User = sequelize.define('Users', attributes, { tableName: 'users' });
+  const User = sequelize.define('Users', attributes, { tableName: 'users', timestamps: false });
   User.associate = (models) => {
     User.hasMany(models.Sales, { key: 'userId', as: 'user' });
     User.hasMany(models.Sales, { key: 'sellerId', as: 'seller' });

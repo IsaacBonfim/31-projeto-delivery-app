@@ -1,16 +1,17 @@
-import RegisterService from '../services/registerService';
+const RegisterService = require('../services/registerService');
 
 const RegisterController = {
-  registerUser: async (req, res, next) => {
+  async registerUser(req, res, next) {
     const { body } = req;
 
     try {
-      await RegisterService.registerUser(body);
-      return res.status(201).end();
+      const costumer = await RegisterService.registerUser(body);
+      
+      return res.status(201).json(costumer);
     } catch (error) {
       next(error);
     }
   },
 };
 
-export default RegisterController;
+module.exports = RegisterController;

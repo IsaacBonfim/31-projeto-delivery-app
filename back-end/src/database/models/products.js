@@ -5,6 +5,7 @@ const attributes = {
   id: {
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
     type: DataTypes.INTEGER
   },
   name: {
@@ -25,7 +26,7 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const Products = sequelize.define('Products', attributes, { tableName: 'products' });
+  const Products = sequelize.define('Products', attributes, { tableName: 'products', timestamps: false });
   Products.associate = (models) => {
     Products.hasMany(models.SalesProducts, { key: 'productId', as: 'product' });
   };

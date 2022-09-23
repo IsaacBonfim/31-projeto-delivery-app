@@ -4,4 +4,4 @@ const throwError = (name, message) => {
   throw error;
 };
 
-export default throwError;
+module.exports = throwError;

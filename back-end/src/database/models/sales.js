@@ -5,6 +5,7 @@ const attributes = {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
     allowNull: false
   },
   userId: {
@@ -55,7 +56,7 @@ const attributes = {
 
 /** @param {import('sequelize').Sequelize} sequelize */
 module.exports = (sequelize) => {
-  const Sales = sequelize.define('Sales', attributes, { tableName: 'sales' });
+  const Sales = sequelize.define('Sales', attributes, { tableName: 'sales', timestamps: false });
   Sales.associate = (models) => {
     Sales.belongsTo(models.Users, { key: 'userId', as: 'user' });
     Sales.belongsTo(models.Users, { key: 'sellerId', as: 'seller' });
