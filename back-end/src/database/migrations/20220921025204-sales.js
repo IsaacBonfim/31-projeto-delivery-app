@@ -6,10 +6,11 @@ module.exports = {
    * @param {import('sequelize').Sequelize} Sequelize 
    */
    up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Sales', {
+    await queryInterface.createTable('sales', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
       },
       userId: {
@@ -18,7 +19,7 @@ module.exports = {
         allowNull: false,
         field: 'user_id',
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id'
         }
       },
@@ -28,7 +29,7 @@ module.exports = {
         allowNull: false,
         field: 'seller_id',
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id'
         }
       },
@@ -60,6 +61,6 @@ module.exports = {
   },
 
   down: async (queryInterface, _Sequelize) => {
-    await queryInterface.dropTable('Sales');
+    await queryInterface.dropTable('sales');
   }
 };

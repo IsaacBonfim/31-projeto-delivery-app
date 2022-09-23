@@ -32,6 +32,7 @@ const attributes = {
 module.exports = (sequelize) => {
   const SalesProducts = sequelize.define('SalesProducts', attributes, {
     tableName: 'salesProducts',
+    timestamps: false,
   });
   SalesProducts.associate = (models) => {
     SalesProducts.belongsTo(models.Sales, { key: 'saleId', as: 'sale' });

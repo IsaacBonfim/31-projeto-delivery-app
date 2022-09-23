@@ -1,13 +1,14 @@
-import express, { json } from 'express';
-import RegisterRouter from './routes/registerRouter';
-import errorMidlleware from './midllewares/errorMidlleware';
+const express = require('express');
+
+const RegisterRouter = require('./routes/registerRouter');
+const errorMidlleware = require('./midllewares/errorMidlleware');
 
 const app = express();
-app.use(json());
+app.use(express.json());
 
 app.get('/coffee', (_req, res) => res.status(418).end());
-app.use('/customer', RegisterRouter);
+app.use('/register', RegisterRouter);
 
 app.use(errorMidlleware);
 
-export default app;
+module.exports = app;

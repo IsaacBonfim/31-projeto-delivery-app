@@ -15,4 +15,4 @@ const errorMidlleware = (err, _res, res, _next) => {
   return res.status(code).json({ message });
 };
 
-export default errorMidlleware;
+module.exports = errorMidlleware;
