@@ -53,5 +53,9 @@
       "__TESTDESC__": true,
       "__TESTFILE__": true
     }
+  },
+  "dependencies": {
+    "browser-router": "^0.2.0",
+    "react-router-dom": "^6.4.1"
   }
 }
