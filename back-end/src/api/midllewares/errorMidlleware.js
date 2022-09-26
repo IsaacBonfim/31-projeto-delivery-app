@@ -11,8 +11,8 @@ const errorMidlleware = (err, _res, res, _next) => {
 
   const code = errors[name];
 
-  if (!code) return res.sendStatus(500);
-  return res.status(code).json({ message });
+ // if (!code) return res.sendStatus(500);
+  return res.status(500).json({ err });
 };
 
 module.exports = errorMidlleware;
