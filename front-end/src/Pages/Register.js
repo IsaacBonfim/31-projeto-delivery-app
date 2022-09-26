@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { requestRegister } from '../Services/Axios';
 import appContext from '../Context/AppContext';
 
 function Register() {
@@ -22,47 +24,65 @@ function Register() {
     handleChage();
   }, [name, email, password, setBtnLogin]);
 
-  return (
-    <div>
-      <h1>Delivery App</h1>
+  const history = useNavigate();
 
-      <input
-        type="name"
-        placeholder="Informe seu Nome"
-        data-testid="common_register__input-name"
-        name="name"
-        value={ name }
-        onChange={ ({ target }) => setName(target.value) }
-      />
-      <input
-        type="email"
-        placeholder="Informe seu email"
-        data-testid="common_register__input-email"
-        name="email"
-        value={ email }
-        onChange={ ({ target }) => setEmail(target.value) }
-      />
-      <input
-        type="password"
-        placeholder="Informe sua senha"
-        data-testid="common_register__input-password"
-        name="password"
-        value={ password }
-        onChange={ ({ target }) => setPassword(target.value) }
-      />
-      <button
-        type="button"
-        data-testid="common_register__button-register"
-        disabled={ btnLoginDisabled }
-        onClick={ () => setErrorMessage(true) }
+  const validateRegister = async () => {
+    const result = await requestRegister('/register', { name, email, password });
+    console.log(result);
+    if (!result) {
+      setErrorMessage(true);
+    } else {
+      history('/login');
+    }
+  };
+
+  return (
+    <div className="main-container">
+      <h1 className="app-title">Delivery App</h1>
+
+      <div className="register-input-container">
+        <input
+          type="name"
+          name="name"
+          placeholder="Informe seu Nome"
+          className="access-input"
+          data-testid="common_register__input-name"
+          value={ name }
+          onChange={ ({ target }) => setName(target.value) }
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Informe seu email"
+          className="access-input"
+          data-testid="common_register__input-email"
+          value={ email }
+          onChange={ ({ target }) => setEmail(target.value) }
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Informe sua senha"
+          className="access-input"
+          data-testid="common_register__input-password"
+          value={ password }
+          onChange={ ({ target }) => setPassword(target.value) }
+        />
+        <button
+          type="button"
+          data-testid="common_register__button-register"
+          disabled={ btnLoginDisabled }
+          onClick={ validateRegister }
+        >
+          CADASTRAR
+        </button>
+      </div>
+      <p
+        className={ errorMessage ? 'error-message' : 'message' }
+        data-testid="common_register__element-invalid_register"
       >
-        CADASTRAR
-      </button>
-      { errorMessage && (
-        <p data-testid="common_login__element-invalid-email">
-          ERRO
-        </p>
-      ) }
+        { errorMessage ? 'Erro' : 'Realize seu cadastro' }
+      </p>
     </div>
   );
 }

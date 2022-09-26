@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestLogin } from '../Services/Axios';
 import appContext from '../Context/AppContext';
+import '../Styles/Access.css';
 
 function Login() {
   const [password, setPassword] = useState('');
@@ -30,29 +31,31 @@ function Login() {
 
     if (!result) {
       setErrorMessage(true);
+    } else {
+      history('/register');
     }
-
-    history('/register');
   };
 
   return (
-    <div>
-      <h1>Delivery App</h1>
+    <div className="main-container">
+      <h1 className="app-title">Delivery App</h1>
 
-      <div>
+      <div className="login-input-container">
         <input
           type="email"
-          placeholder="Digite seu login(email)"
-          data-testid="common_login__input-email"
           name="email"
+          placeholder="Digite seu login(email)"
+          className="access-input"
+          data-testid="common_login__input-email"
           value={ email }
           onChange={ ({ target }) => setEmail(target.value) }
         />
         <input
           type="password"
-          placeholder="Digite sua senha"
-          data-testid="common_login__input-password"
           name="password"
+          placeholder="Digite sua senha"
+          className="access-input"
+          data-testid="common_login__input-password"
           value={ password }
           onChange={ ({ target }) => setPassword(target.value) }
         />
@@ -72,11 +75,12 @@ function Login() {
       >
         Ainda Não tenho Cadastro
       </button>
-      { errorMessage && (
-        <p data-testid="common_login__element-invalid-email">
-          ERRO
-        </p>
-      ) }
+      <p
+        className={ errorMessage ? 'error-message' : 'message' }
+        data-testid="common_login__element-invalid-email"
+      >
+        { errorMessage ? 'Erro' : 'Realize seu login' }
+      </p>
     </div>
   );
 }
