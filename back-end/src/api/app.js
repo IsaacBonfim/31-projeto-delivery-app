@@ -1,5 +1,4 @@
 const express = require('express');
-
 const RegisterRouter = require('./routes/registerRouter');
 const errorMidlleware = require('./midllewares/errorMidlleware');
 
