@@ -1,17 +1,17 @@
 const express = require('express');
+const LoginRouter = require('./routes/loginRouter');
 const RegisterRouter = require('./routes/registerRouter');
 const errorMidlleware = require('./midllewares/errorMidlleware');
 
 const app = express();
 app.use(express.json());
 
-const loginRoute = require('../database/routes/login');
+// app.use('/login', LoginRouter);
 
-app.use('/login', loginRoute);
+// app.use('/register', RegisterRouter);
 
-app.get('/coffee', (_req, res) => res.status(418).end());
-app.use('/register', RegisterRouter);
+// app.get('/coffee', (_req, res) => res.status(418).end());
 
-app.use(errorMidlleware);
+// app.use(errorMidlleware);
 
 module.exports = app;
