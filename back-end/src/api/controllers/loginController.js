@@ -5,12 +5,10 @@ const LoginController = {
     const { body } = req;
 
     try {
-        
-      const login = await LoginService.loginUser(body);
-      
-      return res.status(201).json(login);
+      const { token, id, role, name } = await LoginService.loginUser(body);
+  
+      return res.status(201).json({ token, id, role, name });
     } catch (error) {
-        console.log("passou por aqui");
         next(error);
     }
   },
