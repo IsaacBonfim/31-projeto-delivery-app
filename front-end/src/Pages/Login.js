@@ -12,7 +12,7 @@ function Login() {
 
   useEffect(() => {
     const handleChage = () => {
-      const number = 6;
+      const number = 5;
       const validEmail = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
 
       if (password.length > number && validEmail) {

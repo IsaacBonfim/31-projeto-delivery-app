@@ -11,8 +11,8 @@ function Register() {
 
   useEffect(() => {
     const handleChage = () => {
-      const nName = 12;
-      const nPassword = 6;
+      const nName = 11;
+      const nPassword = 5;
       const validEmail = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
 
       if (name.length > nName && password.length > nPassword && validEmail) {
@@ -28,7 +28,7 @@ function Register() {
 
   const validateRegister = async () => {
     const result = await requestRegister('/register', { name, email, password });
-    console.log(result);
+
     if (!result) {
       setErrorMessage(true);
     } else {
