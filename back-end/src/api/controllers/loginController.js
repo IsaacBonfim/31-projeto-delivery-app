@@ -7,7 +7,7 @@ const LoginController = {
     try {
       const { token, id, role, name } = await LoginService.loginUser(body);
   
-      return res.status(201).json({ token, id, role, name });
+      return res.status(200).json({ token, id, role, name });
     } catch (error) {
         next(error);
     }
