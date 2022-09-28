@@ -33,10 +33,13 @@ const RegisterService = {
     const password = md5(body.password);
     const { name, email } = body;
 
-    let user 
-    
-    try { user = await Users.create({ name, email, password, role: 'customer' }); 
-    } catch (err) { throwError('conflict', 'All fields must be filled correctly'); }
+    let user;
+
+    try { 
+      user = await Users.create({ name, email, password, role: 'customer' }); 
+    } catch (err) { 
+      throwError('conflict', 'All fields must be filled correctly'); 
+    }
 
     return user;
   },
