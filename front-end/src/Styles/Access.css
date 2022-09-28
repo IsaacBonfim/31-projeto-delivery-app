@@ -1,19 +1,20 @@
 button {
   border-radius: 4px;
+  margin: 4px;
   padding: 3px 5px;
 }
 
 .main-container {
-  align-content: center;
+  align-content: flex-start;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  height: 100vh;
+  height: 50%;
   justify-content: center;
 }
 
 .app-title {
-  margin: 8px;
+  margin: 40px 8px 8px;
   text-align: center;
   width: 100%;
 }
@@ -22,7 +23,7 @@ button {
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: 110px;
   justify-content: space-evenly;
   width: 100%;
 }
@@ -38,15 +39,8 @@ button {
 
 .access-input {
   border-radius: 3px;
+  margin: 4px;
   padding: 2px 4px;
-}
-
-.message {
-  color: white;
-  margin: 8px;
-  text-align: center;
-  user-select: none;
-  width: 100%;
 }
 
 .error-message {
