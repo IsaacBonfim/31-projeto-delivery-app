@@ -1,19 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestRegister } from '../Services/Axios';
+import { requestAccess } from '../Services/Axios';
 import appContext from '../Context/AppContext';
 
 function Register() {
   const [password, setPassword] = useState('');
+  const [registerError, setRegisterError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
   const { email, btnLoginDisabled, name,
     setEmail, setBtnLogin, setName } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
-      const nName = 12;
-      const nPassword = 6;
-      const validEmail = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
+      const nName = 11;
+      const nPassword = 5;
+      const validEmail = /\S+@\S+\.\S+/.test(email);
 
       if (name.length > nName && password.length > nPassword && validEmail) {
         setBtnLogin(false);
@@ -27,12 +28,20 @@ function Register() {
   const history = useNavigate();
 
   const validateRegister = async () => {
-    const result = await requestRegister('/register', { name, email, password });
-    console.log(result);
-    if (!result) {
+    const result = await requestAccess('/register', { name, email, password });
+
+    if (result.message) {
+      setRegisterError(result.message);
       setErrorMessage(true);
     } else {
-      history('/login');
+      const { role } = result;
+
+      switch (role) {
+      case 'administrator':
+        history('/admin');
+        break;
+      default: history(`/${role}/products`);
+      }
     }
   };
 
@@ -77,12 +86,16 @@ function Register() {
           CADASTRAR
         </button>
       </div>
-      <p
-        className={ errorMessage ? 'error-message' : 'message' }
-        data-testid="common_register__element-invalid_register"
-      >
-        { errorMessage ? 'Erro' : 'Realize seu cadastro' }
-      </p>
+
+      { errorMessage
+        && (
+          <p
+            className="error-message"
+            data-testid="common_register__element-invalid_register"
+          >
+            { registerError }
+          </p>
+        )}
     </div>
   );
 }

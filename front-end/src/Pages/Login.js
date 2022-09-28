@@ -1,19 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestLogin } from '../Services/Axios';
+import { requestAccess } from '../Services/Axios';
 import appContext from '../Context/AppContext';
 import '../Styles/Access.css';
 
 function Login() {
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
   const { email, btnLoginDisabled,
     setEmail, setBtnLogin } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
-      const number = 6;
-      const validEmail = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
+      const number = 5;
+      const validEmail = /\S+@\S+\.\S+/.test(email);
 
       if (password.length > number && validEmail) {
         setBtnLogin(false);
@@ -27,12 +28,20 @@ function Login() {
   const history = useNavigate();
 
   const validateLogin = async () => {
-    const result = await requestLogin('/login', { email, password });
+    const result = await requestAccess('/login', { email, password });
 
-    if (!result) {
+    if (result.message) {
+      setLoginError(result.message);
       setErrorMessage(true);
     } else {
-      history('/register');
+      const { role } = result;
+
+      switch (role) {
+      case 'administrator':
+        history('/admin');
+        break;
+      default: history(`/${role}/products`);
+      }
     }
   };
 
@@ -75,12 +84,16 @@ function Login() {
       >
         Ainda Não tenho Cadastro
       </button>
-      <p
-        className={ errorMessage ? 'error-message' : 'message' }
-        data-testid="common_login__element-invalid-email"
-      >
-        { errorMessage ? 'Erro' : 'Realize seu login' }
-      </p>
+
+      { errorMessage
+        && (
+          <p
+            className="error-message"
+            data-testid="common_login__element-invalid-email"
+          >
+            { loginError }
+          </p>
+        )}
     </div>
   );
 }

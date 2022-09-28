@@ -18,7 +18,7 @@ const RegisterService = {
 
   async userVerify({ name, email }) {
     const user = await Users.findOne({ where: { email }, raw: true });
-    
+
     if (user) {
       if (user.name === name) return throwError('conflict', 'Name already exists!');
 
