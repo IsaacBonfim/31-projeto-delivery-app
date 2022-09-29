@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 /** @type {import('sequelize').ModelAttributes} */
 const attributes = {
@@ -44,13 +44,13 @@ const attributes = {
     field: 'created_at'
   },
   saleDate: {
-    allowNull: false,
+    defaultValue: Sequelize.fn('NOW'),
     type: DataTypes.DATE,
     field: 'sale_date'
   },
   status: {
-    type: DataTypes.STRING,
-    allowNull: false
+    defaultValue: 'Pendente',
+    type: DataTypes.STRING
   }
 };
 
