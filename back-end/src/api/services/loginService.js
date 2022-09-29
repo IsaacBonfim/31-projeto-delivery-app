@@ -1,11 +1,8 @@
 const Joi = require('joi');
-const jwt = require('jsonwebtoken');
 const md5 = require('md5');
-const { readFile } = require('../utils/readFile');
 const throwError = require('../utils/errorHandler');
+const createToken = require('../utils/token');
 const { Users } = require('../../database/models');
-
-const secret = readFile();
 
 const LoginService = {
   validateLogin(login) {
@@ -19,14 +16,6 @@ const LoginService = {
    if (error) return throwError('conflict', 'All fields must be filled correctly');
   },
 
-  // Usar na rota /login
-  createToken({ id, name, role, email }) {
-      const jwtConfig = { expiresIn: '21d', algorithm: 'HS256' };
-      const payload = { data: { id, name, role, email } };
-      const token = jwt.sign(payload, secret, jwtConfig);
-      return { token, id, role, name };
-  },
-
   async loginUser(body) {
     this.validateLogin(body);
 
@@ -35,7 +24,8 @@ const LoginService = {
     const login = await Users.findOne({ where: { email, password } });
     if (!login) return throwError('notFound', 'All fields must be filled correctly');
     const { dataValues: { id, name, role } } = login;
-    const createdToken = this.createToken({ id, name, role, email });
+    
+    const createdToken = createToken({ id, name, role, email });
     return createdToken;
   },
 };
