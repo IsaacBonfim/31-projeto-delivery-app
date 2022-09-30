@@ -8,8 +8,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
-  const { email, btnLoginDisabled,
-    setEmail, setBtnLogin } = useContext(appContext);
+  const { email, btnLoginDisabled, setEmail, setBtnLogin,
+    setName, setLocalStorageAccessInfo } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
@@ -29,19 +29,26 @@ function Login() {
 
   const validateLogin = async () => {
     const result = await requestAccess('/login', { email, password });
+    const { role, name } = result;
 
-    if (result.message) {
+    switch (role) {
+    case 'administrator':
+      setLocalStorageAccessInfo(result);
+      history('/admin/manage');
+      break;
+    case 'seller':
+      setLocalStorageAccessInfo(result);
+      history('/seller/orders');
+      break;
+    case 'customer':
+      setLocalStorageAccessInfo(result);
+      setName(name);
+      history('/customer/products');
+      break;
+    default: {
       setLoginError(result.message);
       setErrorMessage(true);
-    } else {
-      const { role } = result;
-
-      switch (role) {
-      case 'administrator':
-        history('/admin');
-        break;
-      default: history(`/${role}/products`);
-      }
+    }
     }
   };
 
@@ -70,6 +77,7 @@ function Login() {
         />
         <button
           type="button"
+          className="access-button"
           data-testid="common_login__button-login"
           disabled={ btnLoginDisabled }
           onClick={ validateLogin }
@@ -79,6 +87,7 @@ function Login() {
       </div>
       <button
         type="button"
+        className="access-button"
         data-testid="common_login__button-register"
         onClick={ () => history('/register') }
       >
