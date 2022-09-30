@@ -1,0 +1,21 @@
+.header {
+  height: 10vh;
+  width: 100%;
+}
+
+.ProductNav {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.section {
+  align-items: center;
+  display: flex;
+}
+
+.btn {
+  padding: 4px;
+  width: 100px;
+}
