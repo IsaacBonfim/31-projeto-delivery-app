@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const md5 = require('md5');
 const throwError = require('../utils/errorHandler');
+const createToken = require('../utils/token');
 const { Users } = require('../../database/models');
 
 const RegisterService = {
@@ -33,11 +34,12 @@ const RegisterService = {
     const password = md5(body.password);
     const { name, email } = body;
 
-    const user = await Users.create({ name, email, password, role: 'customer' });
+    const userCreated = await Users.create({ name, email, password, role: 'customer' });
+    if (!userCreated) return throwError('conflict', 'All fields must be filled correctly');
 
-    if (!user) return throwError('conflict', 'All fields must be filled correctly');
+    const token = createToken(userCreated);
 
-    return user;
+    return token;
   },
 };
 
