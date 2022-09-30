@@ -7,8 +7,8 @@ function Register() {
   const [password, setPassword] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
-  const { email, btnLoginDisabled, name,
-    setEmail, setBtnLogin, setName } = useContext(appContext);
+  const { email, btnLoginDisabled, name, setEmail, setBtnLogin,
+    setName, setLocalStorageAccessInfo } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
@@ -34,14 +34,8 @@ function Register() {
       setRegisterError(result.message);
       setErrorMessage(true);
     } else {
-      const { role } = result;
-
-      switch (role) {
-      case 'administrator':
-        history('/admin');
-        break;
-      default: history(`/${role}/products`);
-      }
+      setLocalStorageAccessInfo(result);
+      history('/customer/products');
     }
   };
 
@@ -79,6 +73,7 @@ function Register() {
         />
         <button
           type="button"
+          className="access-button"
           data-testid="common_register__button-register"
           disabled={ btnLoginDisabled }
           onClick={ validateRegister }
