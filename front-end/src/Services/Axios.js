@@ -6,7 +6,11 @@ export const api = axios.create({
 
 export const requestAccess = async (endpoint, body) => {
   const { data } = await api.post(endpoint, body).catch((error) => error.response);
-  console.log({ data, api, endpoint });
+  return data;
+};
+
+export const requestProducts = async (endpoint) => {
+  const { data } = await api.post(endpoint).catch((error) => error.response);
   return data;
 };
 
