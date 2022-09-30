@@ -33,7 +33,7 @@ const LoginService = {
     const password = md5(body.password);
     const { email } = body;
     const login = await Users.findOne({ where: { email, password } });
-    if (!login) return throwError('notFound', 'All fields must be filled correctly');
+    if (!login) return throwError('notFound', 'User not Found');
     const { dataValues: { id, name, role } } = login;
     const createdToken = this.createToken({ id, name, role, email });
     return createdToken;
