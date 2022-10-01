@@ -10,12 +10,6 @@ export const requestAccess = async (endpoint, body) => {
 };
 
 export const requestProducts = async (endpoint) => {
-  const { data } = await api.post(endpoint).catch((error) => error.response);
+  const { data } = await api.get(endpoint).catch((error) => error.response);
   return data;
 };
-
-// export const requestRegister = async (endpoint, body) => {
-//   const { data } = await api.post(endpoint, body).catch((error) => error.response);
-//   console.log(data);
-//   return data;
-// };
