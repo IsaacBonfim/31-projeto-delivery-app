@@ -9,7 +9,6 @@ import {
   Button,
   Center,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Stack,
@@ -43,10 +42,12 @@ function Register() {
   const { setUser } = useUser();
 
   const {
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
     handleSubmit,
     register,
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
+
+  console.log('render');
 
   const onSubmit = useCallback(async (form) => {
     const { message, result } = await auth.register(form);
@@ -64,46 +65,13 @@ function Register() {
     }
   }, []);
 
-  // const [password, setPassword] = useState('');
-  // const [registerError, setRegisterError] = useState('');
-  // const [errorMessage, setErrorMessage] = useState(false);
-  // const { email, btnLoginDisabled, name, setEmail,
-  //   setBtnLogin, setName } = useContext(appContext);
-
-  // useEffect(() => {
-  //   const handleChage = () => {
-  //     const nName = 11;
-  //     const nPassword = 5;
-  //     const validEmail = /\S+@\S+\.\S+/.test(email);
-
-  //     if (name.length > nName && password.length > nPassword && validEmail) {
-  //       setBtnLogin(false);
-  //     } else {
-  //       setBtnLogin(true);
-  //     }
-  //   };
-  //   handleChage();
-  // }, [name, email, password, setBtnLogin]);
-
-  // const validateRegister = async () => {
-  //   const result = await requestAccess('/register', { name, email, password });
-
-  //   if (result.message) {
-  //     setRegisterError(result.message);
-  //     setErrorMessage(true);
-  //   } else {
-  //     setAccessInfo(result);
-  //     history('/customer/products');
-  //   }
-  // };
-
   return (
     <Center minH="100vh">
       <Box
         as="form"
         bgColor="gray.300"
         borderRadius="xl"
-        boxShadow="lg"
+        boxShadow="xl"
         maxW="calc(100vw - 24px)"
         p={ 5 }
         w={ 400 }
@@ -126,10 +94,6 @@ function Register() {
             { ...register('name') }
             data-testid="common_register__input-name"
           />
-
-          <FormErrorMessage fontSize="xs" justifyContent="flex-end" mt={ 1 }>
-            {errors.name?.message}
-          </FormErrorMessage>
         </FormControl>
 
         <FormControl isDisabled={ isSubmitting } isInvalid={ errors.email } mt={ 2 }>
@@ -141,10 +105,6 @@ function Register() {
             { ...register('email') }
             data-testid="common_register__input-email"
           />
-
-          <FormErrorMessage fontSize="xs" justifyContent="flex-end" mt={ 1 }>
-            {errors.email?.message}
-          </FormErrorMessage>
         </FormControl>
 
         <FormControl isDisabled={ isSubmitting } isInvalid={ errors.password } mt={ 2 }>
@@ -156,16 +116,13 @@ function Register() {
             isDisabled={ isSubmitting }
             data-testid="common_register__input-password"
           />
-
-          <FormErrorMessage fontSize="xs" justifyContent="flex-end" mt={ 1 }>
-            {errors.password?.message}
-          </FormErrorMessage>
         </FormControl>
 
         <Stack direction="row-reverse" mt={ 10 }>
           <Button
             type="submit"
             colorScheme="green"
+            isDisabled={ !isValid }
             isLoading={ isSubmitting }
             data-testid="common_login__button-login"
           >
@@ -184,58 +141,6 @@ function Register() {
         </Stack>
       </Box>
     </Center>
-    // <div className="main-container">
-    //   <h1 className="app-title">Delivery App</h1>
-
-  //   <div className="register-input-container">
-  //     <input
-  //       type="name"
-  //       name="name"
-  //       placeholder="Informe seu Nome"
-  //       className="access-input"
-  //       data-testid="common_register__input-name"
-  //       value={ name }
-  //       onChange={ ({ target }) => setName(target.value) }
-  //     />
-  //     <input
-  //       type="email"
-  //       name="email"
-  //       placeholder="Informe seu email"
-  //       className="access-input"
-  //       data-testid="common_register__input-email"
-  //       value={ email }
-  //       onChange={ ({ target }) => setEmail(target.value) }
-  //     />
-  //     <input
-  //       type="password"
-  //       name="password"
-  //       placeholder="Informe sua senha"
-  //       className="access-input"
-  //       data-testid="common_register__input-password"
-  //       value={ password }
-  //       onChange={ ({ target }) => setPassword(target.value) }
-  //     />
-  //     <button
-  //       type="button"
-  //       className="access-button"
-  //       data-testid="common_register__button-register"
-  //       disabled={ btnLoginDisabled }
-  //       onClick={ validateRegister }
-  //     >
-  //       CADASTRAR
-  //     </button>
-  //   </div>
-
-  //   { errorMessage
-  //     && (
-  //       <p
-  //         className="error-message"
-  //         data-testid="common_register__element-invalid_register"
-  //       >
-  //         { registerError }
-  //       </p>
-  //     )}
-  // </div>
   );
 }
 

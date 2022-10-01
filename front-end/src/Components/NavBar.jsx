@@ -9,70 +9,75 @@ function NavBar() {
   const { user, setUser } = useUser();
 
   return (
-    <Stack
-      bgColor="gray.100"
-      direction="row"
-      justify="space-between"
-      left={ 0 }
-      px={ 4 }
-      py={ 2 }
-      pos="fixed"
-      right={ 0 }
-      top={ 0 }
-    >
-      <Stack direction="row" spacing={ 0 }>
-        <Button
-          as={ Link }
-          to="/customer/products"
-          borderRightRadius="none"
-          colorScheme="green"
-          data-testid="customer_products__element-navbar-link-orders"
-        >
-          Meus Pedidos
-        </Button>
-
-        <Button
-          as={ Link }
-          to="/customer/orders"
-          borderLeftRadius="none"
-          colorScheme="blue"
-          data-testid="customer_products__element-navbar-link-products"
-        >
-          Produtos
-        </Button>
-      </Stack>
-
-      <Stack align="center" direction="row" spacing={ 0 }>
-        <Stack
-          align="center"
-          bgColor="purple.600"
-          borderLeftRadius="md"
-          color="white"
-          direction="row"
-          p={ 2 }
-          px={ 3 }
-          spacing={ 1 }
-        >
-          <MdAccountCircle size={ 24 } />
-          <Text
-            fontWeight="semibold"
-            data-testid="customer_products__element-navbar-user-full-name"
+    <header>
+      <Stack
+        as="nav"
+        align="center"
+        bgColor="gray.100"
+        direction={ ['column', null, 'row'] }
+        justify="space-between"
+        left={ 0 }
+        px={ 4 }
+        py={ 3 }
+        pos="fixed"
+        right={ 0 }
+        top={ 0 }
+      >
+        <Stack as="section" direction="row" spacing={ 0 }>
+          <Button
+            as={ Link }
+            to="/customer/products"
+            borderRightRadius="none"
+            colorScheme="green"
+            data-testid="customer_products__element-navbar-link-orders"
           >
-            {user.name}
-          </Text>
+            Meus Pedidos
+          </Button>
+
+          <Button
+            as={ Link }
+            to="/customer/orders"
+            borderLeftRadius="none"
+            colorScheme="blue"
+            data-testid="customer_products__element-navbar-link-products"
+          >
+            Produtos
+          </Button>
         </Stack>
 
-        <Button
-          borderLeftRadius="none"
-          colorScheme="red"
-          rightIcon={ <MdLogout /> }
-          onClick={ () => setUser(null) }
-          data-testid="customer_products__element-navbar-link-logout"
-        >
-          Sair
-        </Button>
+        <Stack as="section" align="center" direction="row" spacing={ 0 }>
+          <Stack
+            align="center"
+            bgColor="purple.600"
+            borderLeftRadius="md"
+            color="white"
+            direction="row"
+            p={ 2 }
+            px={ 3 }
+            spacing={ 1 }
+          >
+            <MdAccountCircle size={ 24 } />
+            <Text
+              fontWeight="semibold"
+              whiteSpace="nowrap"
+              data-testid="customer_products__element-navbar-user-full-name"
+            >
+              {user.name}
+            </Text>
+          </Stack>
+
+          <Button
+            borderLeftRadius="none"
+            colorScheme="red"
+            rightIcon={ <MdLogout /> }
+            onClick={ () => setUser(null) }
+            data-testid="customer_products__element-navbar-link-logout"
+          >
+            Sair
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
+    </header>
     // <header className="header">
     //   <nav className="ProductNav">
     //     <section className="left section">

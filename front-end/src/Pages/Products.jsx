@@ -1,10 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { SimpleGrid } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import appContext from '../Context/AppContext';
 import NavBar from '../Components/NavBar';
 import ProductCard from '../Components/ProductCard';
 import { setTotal as setTotalLocal } from '../Services/LocalStorage';
 import '../Styles/Products.css';
+
+const GRID_COLUMNS = [
+  1,
+  2,
+  2 + 1,
+  2 + 2,
+];
 
 function Products() {
   const [total, setTotal] = useState(0);
@@ -15,7 +23,6 @@ function Products() {
 
   useEffect(() => {
     productsRequest();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -29,13 +36,18 @@ function Products() {
 
     setTotal(soma);
     setTotalLocal(soma);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
 
   return (
-    <div className="products-container">
+    <>
       <NavBar />
-      <section className="products-section">
+      <SimpleGrid
+        as="section"
+        columns={ GRID_COLUMNS }
+        mt={ ['112px', null, '64px'] }
+        p={ 10 }
+        spacing={ 10 }
+      >
         { products !== undefined && products !== null && products.length > 0 && (
           products.map((product) => (
             <ProductCard
@@ -44,7 +56,17 @@ function Products() {
             />
           ))
         ) }
-      </section>
+      </SimpleGrid>
+      {/* <section className="products-section">
+        { products !== undefined && products !== null && products.length > 0 && (
+          products.map((product) => (
+            <ProductCard
+              key={ product.id }
+              product={ product }
+            />
+          ))
+        ) }
+      </section> */}
       <section className="cart-section">
         <button
           type="button"
@@ -61,7 +83,7 @@ function Products() {
           { `Ver Carrinho R$ ${total.toFixed(2).replace('.', ',')}` }
         </p>
       </section>
-    </div>
+    </>
   );
 }
 

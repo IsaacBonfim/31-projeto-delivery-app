@@ -9,7 +9,6 @@ import {
   Button,
   Center,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
   Stack,
@@ -37,10 +36,10 @@ function Login() {
   const { setUser } = useUser();
 
   const {
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
     handleSubmit,
     register,
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
 
   const onSubmit = useCallback(async (form) => {
     const { message, result } = await auth.login(form);
@@ -64,7 +63,7 @@ function Login() {
         as="form"
         bgColor="gray.300"
         borderRadius="xl"
-        boxShadow="lg"
+        boxShadow="xl"
         maxW="calc(100vw - 24px)"
         p={ 5 }
         w={ 400 }
@@ -88,10 +87,6 @@ function Login() {
             { ...register('email') }
             data-testid="common_login__input-email"
           />
-
-          <FormErrorMessage fontSize="xs" justifyContent="flex-end" mt={ 1 }>
-            {errors.email?.message}
-          </FormErrorMessage>
         </FormControl>
 
         <FormControl isDisabled={ isSubmitting } isInvalid={ errors.password } mt={ 2 }>
@@ -103,16 +98,13 @@ function Login() {
             isDisabled={ isSubmitting }
             data-testid="common_login__input-password"
           />
-
-          <FormErrorMessage fontSize="xs" justifyContent="flex-end" mt={ 1 }>
-            {errors.password?.message}
-          </FormErrorMessage>
         </FormControl>
 
         <Stack direction="row-reverse" mt={ 10 }>
           <Button
             type="submit"
             colorScheme="green"
+            isDisabled={ !isValid }
             isLoading={ isSubmitting }
             data-testid="common_login__button-login"
           >
