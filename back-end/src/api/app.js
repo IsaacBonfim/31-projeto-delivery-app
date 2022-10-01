@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use('/images', express.static('images/public'));
 app.use('/login', LoginRouter);
 app.use('/register', RegisterRouter);
 app.use('/customer', SalesRouter);
