@@ -2,14 +2,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestAccess } from '../Services/Axios';
 import appContext from '../Context/AppContext';
+import { setAccessInfo } from '../Services/LocalStorage';
 import '../Styles/Access.css';
 
 function Login() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
-  const { email, btnLoginDisabled, setEmail, setBtnLogin,
-    setName, setLocalStorageAccessInfo } = useContext(appContext);
+  const { email, btnLoginDisabled, setEmail,
+    setBtnLogin, setName } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
@@ -33,15 +34,15 @@ function Login() {
 
     switch (role) {
     case 'administrator':
-      setLocalStorageAccessInfo(result);
+      setAccessInfo(result);
       history('/admin/manage');
       break;
     case 'seller':
-      setLocalStorageAccessInfo(result);
+      setAccessInfo(result);
       history('/seller/orders');
       break;
     case 'customer':
-      setLocalStorageAccessInfo(result);
+      setAccessInfo(result);
       setName(name);
       history('/customer/products');
       break;
