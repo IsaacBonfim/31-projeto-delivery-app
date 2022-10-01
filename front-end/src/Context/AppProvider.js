@@ -8,36 +8,31 @@ function AppProvider({ children }) {
   const [name, setName] = useState('');
   const [btnLoginDisabled, setBtnLogin] = useState(true);
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const productsRequest = async () => {
-    const prodList = await requestProducts('/products');
+    const prodList = await requestProducts('/customer/products');
 
     setProducts(prodList);
   };
 
   const memo = useMemo(() => {
-    const setLocalStorageAccessInfo = (user) => {
-      localStorage.setItem('name', JSON.stringify({ name: user.name }));
-      localStorage.setItem('email', JSON.stringify({ email }));
-      localStorage.setItem('role', JSON.stringify({ role: user.role }));
-      localStorage.setItem('token', JSON.stringify({ token: user.token }));
-    };
-
     const objApp = {
       email,
       btnLoginDisabled,
       name,
       products,
+      cart,
       setEmail,
       setBtnLogin,
       setName,
       setProducts,
+      setCart,
       productsRequest,
-      setLocalStorageAccessInfo,
     };
 
     return objApp;
-  }, [email, btnLoginDisabled, name, products]);
+  }, [email, btnLoginDisabled, name, products, cart]);
 
   return (
     <appContext.Provider value={ memo }>
