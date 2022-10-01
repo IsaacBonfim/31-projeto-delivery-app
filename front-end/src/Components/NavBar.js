@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appContext from '../Context/AppContext';
+import useUser from '../Context/user';
 import '../Styles/Header.css';
 
 function NavBar() {
   const { name } = useContext(appContext);
+  const { setUser } = useUser();
 
   const history = useNavigate();
 
   function logout() {
-    localStorage.clear();
-
-    history('/login');
+    localStorage.removeItem('user');
+    setUser(null);
   }
 
   return (
