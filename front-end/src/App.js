@@ -8,6 +8,7 @@ import AppProvider from './Context/AppProvider';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Products from './Pages/Products';
+import Checkout from './Pages/Checkout';
 import Orders from './Pages/Orders';
 import NotFound from './Pages/NotFound';
 import './Styles/App.css';
@@ -30,6 +31,7 @@ function App() {
             element={ <Navigate to="/customer/products" replace /> }
           />
           <Route exact path="/customer/products" element={ <Products /> } />
+          <Route exact path="/customer/checkout" element={ <Checkout /> } />
           <Route exact path="/customer/orders" element={ <Orders /> } />
           <Route exact path="/*" element={ <NotFound /> } />
         </Routes>
