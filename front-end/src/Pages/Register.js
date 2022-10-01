@@ -2,13 +2,14 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestAccess } from '../Services/Axios';
 import appContext from '../Context/AppContext';
+import { setAccessInfo } from '../Services/LocalStorage';
 
 function Register() {
   const [password, setPassword] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
-  const { email, btnLoginDisabled, name, setEmail, setBtnLogin,
-    setName, setLocalStorageAccessInfo } = useContext(appContext);
+  const { email, btnLoginDisabled, name, setEmail,
+    setBtnLogin, setName } = useContext(appContext);
 
   useEffect(() => {
     const handleChage = () => {
@@ -34,7 +35,7 @@ function Register() {
       setRegisterError(result.message);
       setErrorMessage(true);
     } else {
-      setLocalStorageAccessInfo(result);
+      setAccessInfo(result);
       history('/customer/products');
     }
   };

@@ -6,21 +6,22 @@ const attributes = {
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   price: {
     type: DataTypes.DECIMAL(4, 2),
-    allowNull: false
+    allowNull: false,
   },
   urlImage: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: ''
+    defaultValue: '',
+    field: 'url_image',
   },
 };
 
