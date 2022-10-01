@@ -19,12 +19,13 @@ module.exports = {
         unique: true
       },
       price: {
-        type: Sequelize.DECIMAL(4, ),
+        type: Sequelize.DECIMAL(4, 2),
         allowNull: false
       },
       urlImage: {
         type: Sequelize.STRING,
         allowNull: false,
+        field: 'url_image',
         defaultValue: ''
       },
     })
