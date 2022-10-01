@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -14,7 +15,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { toast } from 'react-toastify';
+
 import { MIN_PASSWORD_LENGTH } from '../Constants';
 import PasswordInput from '../Components/PasswordInput';
 import auth from '../Services/Api/auth';
@@ -33,7 +34,8 @@ const schema = yup.object({
 });
 
 function Login() {
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
+
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -41,11 +43,11 @@ function Login() {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = useCallback(async (form) => {
-    const { message, result } = await auth.login(form.email, form.password);
+    const { message, result } = await auth.login(form);
 
     if (result) {
-      console.log(user);
-      setUser(result);
+      const { id, ...user } = result;
+      setUser(user);
     } else {
       toast(
         <span data-testid="common_login__element-invalid-email">
