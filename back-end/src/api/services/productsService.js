@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const { Products } = require('../../database/models');
 
 const findAll = async () => {
@@ -8,27 +8,27 @@ const findAll = async () => {
   return products;
 };
 
-const findById = async (params) => {
-  try {
-    const result = await Products.findByPk(params);
-    const { id, name, price, urlImage } = result;
+// const findById = async (params) => {
+//   try {
+//     const result = await Products.findByPk(params);
+//     const { id, name, price, urlImage } = result;
 
-    return { id, name, price, urlImage };
-  } catch (error) {
-    return { status: 404, message: 'Product not found' };
-  }
-};
+//     return { id, name, price, urlImage };
+//   } catch (error) {
+//     return { status: 404, message: 'Product not found' };
+//   }
+// };
 
-const getImage = async (url) => {
-  const data = await fs.readFileSync(path.join(__dirname, `../../images/${url}`));
+// const getImage = async (url) => {
+//   const data = await fs.readFileSync(path.join(__dirname, `../../images/${url}`));
 
-  return data;
-};
+//   return data;
+// };
 
 module.exports = {
   findAll,
-  findById,
-  getImage,
+  // findById,
+  // getImage,
 };
 
 // const ProductsService = {
