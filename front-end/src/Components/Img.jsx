@@ -15,7 +15,7 @@ function Img({ src, ...rest }) {
     return (
       <Skeleton
         alignSelf="stretch"
-        h={ rest.h }
+        h={ rest.maxH }
         m={ rest.m }
       />
     );

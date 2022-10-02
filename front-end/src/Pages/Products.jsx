@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, SimpleGrid, toast } from '@chakra-ui/react';
 import { MdShoppingCart } from 'react-icons/md';
 import NavBar from '../Components/NavBar';
@@ -17,6 +18,7 @@ const GRID_COLUMNS = [
 function Products() {
   const { cart, totalValue } = useCart();
   const [products, setProducts] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function load() {
@@ -68,6 +70,7 @@ function Products() {
         size="lg"
         zIndex={ 900 }
         isDisabled={ cart.length === 0 }
+        onClick={ () => navigate('/customer/checkout') }
         data-testid="customer_products__button-cart"
       >
         Ver Carrinho

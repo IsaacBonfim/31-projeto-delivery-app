@@ -81,6 +81,7 @@ function ProductCard({ product }) {
           >
             <NumberInputField
               borderRadius="none"
+              onChange={ ({ target }) => handleCart(target.value) }
               data-testid={ `customer_products__input-card-quantity-${product.id}` }
             />
           </NumberInput>
