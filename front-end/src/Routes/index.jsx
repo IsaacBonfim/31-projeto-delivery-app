@@ -9,14 +9,20 @@ import Products from '../Pages/Products';
 import Register from '../Pages/Register';
 import PrivateRoute from './Private.route';
 import ProtectedRoute from './Protected.route';
+import useUser from '../Context/user';
+import { ROLES_OPTIONS } from '../Constants';
 
 function Routes() {
+  const { user } = useUser();
+
   return (
     <Switch>
       <Route
         exact
         path="/"
-        element={ <Navigate to="/login" replace /> }
+        element={ (
+          <Navigate to={ user ? ROLES_OPTIONS[user.role].main : '/login' } replace />
+        ) }
       />
 
       <Route
@@ -42,7 +48,11 @@ function Routes() {
       <Route
         exact
         path="/customer"
-        element={ <Navigate to="/customer/products" replace /> }
+        element={
+          <PrivateRoute>
+            <Navigate to="/customer/products" replace />
+          </PrivateRoute>
+        }
       />
 
       <Route
@@ -67,7 +77,7 @@ function Routes() {
 
       <Route
         exact
-        path="/customer/NotFound"
+        path="/customer/orders"
         element={ (
           <PrivateRoute>
             <Orders />

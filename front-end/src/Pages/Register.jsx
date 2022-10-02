@@ -47,8 +47,6 @@ function Register() {
     register,
   } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
 
-  console.log('render');
-
   const onSubmit = useCallback(async (form) => {
     const { message, result } = await auth.register(form);
 

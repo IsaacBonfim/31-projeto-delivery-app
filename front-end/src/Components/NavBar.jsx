@@ -54,7 +54,7 @@ function NavBar() {
             colorScheme="green"
             data-testid="customer_products__element-navbar-link-orders"
           >
-            Meus Pedidos
+            Produtos
           </Button>
 
           <Button
@@ -64,7 +64,7 @@ function NavBar() {
             colorScheme="blue"
             data-testid="customer_products__element-navbar-link-products"
           >
-            Produtos
+            Meus Pedidos
           </Button>
         </Stack>
 

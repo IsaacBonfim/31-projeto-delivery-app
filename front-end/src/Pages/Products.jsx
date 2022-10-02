@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { SimpleGrid } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import appContext from '../Context/AppContext';
+import React, { useState, useEffect } from 'react';
+import { Button, SimpleGrid, toast } from '@chakra-ui/react';
+import { MdShoppingCart } from 'react-icons/md';
 import NavBar from '../Components/NavBar';
 import ProductCard from '../Components/ProductCard';
-import { setTotal as setTotalLocal } from '../Services/LocalStorage';
+import productsApi from '../Services/Api/products';
 import '../Styles/Products.css';
+import useCart from '../Context/cart';
 
 const GRID_COLUMNS = [
   1,
@@ -15,74 +15,63 @@ const GRID_COLUMNS = [
 ];
 
 function Products() {
-  const [total, setTotal] = useState(0);
-  const [btnCheckoutDisabled, setBtnCheckout] = useState(true);
-  const { products, cart, productsRequest } = useContext(appContext);
-
-  const history = useNavigate();
+  const { cart, totalValue } = useCart();
+  const [products, setProducts] = useState(null);
 
   useEffect(() => {
-    productsRequest();
-  }, []);
+    async function load() {
+      const { message, result } = await productsApi.list();
 
-  useEffect(() => {
-    const soma = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-
-    if (cart.length >= 1) {
-      setBtnCheckout(false);
-    } else {
-      setBtnCheckout(true);
+      if (result) {
+        setProducts(result);
+      } else {
+        toast(message, { type: 'error' });
+      }
     }
 
-    setTotal(soma);
-    setTotalLocal(soma);
-  }, [cart]);
+    load();
+  }, []);
 
   return (
     <>
       <NavBar />
+
       <SimpleGrid
         as="section"
         columns={ GRID_COLUMNS }
         mt={ ['157px', null, '64px'] }
+        mb="52px"
         p={ 10 }
         spacing={ 10 }
       >
-        { products !== undefined && products !== null && products.length > 0 && (
-          products.map((product) => (
-            <ProductCard
-              key={ product.id }
-              product={ product }
-            />
-          ))
-        ) }
+        {products?.map((product) => (
+          <ProductCard
+            key={ product.id }
+            product={ product }
+          />
+        ))}
       </SimpleGrid>
-      {/* <section className="products-section">
-        { products !== undefined && products !== null && products.length > 0 && (
-          products.map((product) => (
-            <ProductCard
-              key={ product.id }
-              product={ product }
-            />
-          ))
+
+      <Button
+        bottom={ 5 }
+        colorScheme="purple"
+        leftIcon={ <MdShoppingCart size={ 24 } /> }
+        pos="fixed"
+        right={ 5 }
+        rightIcon={ (
+          <strong
+            data-testid="customer_products__checkout-bottom-value"
+          >
+            {totalValue.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </strong>
         ) }
-      </section> */}
-      <section className="cart-section">
-        <button
-          type="button"
-          className="btn"
-          data-testid="customer_products__button-cart"
-          disabled={ btnCheckoutDisabled }
-          onClick={ () => history('/customer/checkout') }
-        >
-          Ver carrinho
-        </button>
-        <p
-          data-testid="customer_products__checkout-bottom-value"
-        >
-          { `Ver Carrinho R$ ${total.toFixed(2).replace('.', ',')}` }
-        </p>
-      </section>
+        size="lg"
+        zIndex={ 900 }
+        isDisabled={ cart.length === 0 }
+        data-testid="customer_products__button-cart"
+      >
+        Ver Carrinho
+      </Button>
     </>
   );
 }

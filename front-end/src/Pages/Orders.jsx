@@ -1,12 +1,17 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import NavBar from '../Components/NavBar';
 
 function Orders() {
   return (
-    <div className="products-container">
+    <>
       <NavBar />
-      <h1>Tela dos meus Pedidos</h1>
-    </div>
+      <Box
+        mt={ ['157px', null, '64px'] }
+      >
+        Tela dos meus Pedidos
+      </Box>
+    </>
   );
 }
 

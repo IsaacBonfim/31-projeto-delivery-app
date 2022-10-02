@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MdAdd, MdRemove } from 'react-icons/md';
 import {
@@ -10,43 +10,24 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import appContext from '../Context/AppContext';
-import { setCart as setCartLocal } from '../Services/LocalStorage';
 import Img from './Img';
+import useCart from '../Context/cart';
 
-function ProductCard(props) {
-  const [quant, setQuant] = useState(0);
-  const { cart, setCart } = useContext(appContext);
-  const { product } = props;
+function ProductCard({ product }) {
+  const { cart, handleProduct, removeProduct } = useCart();
+  const [amount, setAmount] = useState(
+    cart.find((item) => item.id === product.id)?.amount || 0,
+  );
 
-  function addCart(quantity) {
-    const cartItem = cart.find((item) => item.id === product.id);
-    let newCart = [];
+  const handleCart = useCallback((value) => {
+    setAmount(value);
 
-    if (!cartItem) {
-      const newItem = { ...product, quantity };
-      newCart = [...cart, newItem];
+    if (value === 0) {
+      removeProduct(product);
     } else {
-      const index = cart.findIndex((item) => item.id === product.id);
-      newCart = [...cart];
-      newCart[index].quantity = quantity;
+      handleProduct(product, value);
     }
-
-    setCart(newCart);
-    setCartLocal(newCart);
-  }
-
-  function calculate(num) {
-    if (num <= 0) {
-      const newCart = cart.filter((item) => item.id !== product.id);
-
-      setQuant(0);
-      setCart(newCart);
-    } else {
-      setQuant(num);
-      addCart(num);
-    }
-  }
+  }, [amount]);
 
   return (
     <Stack
@@ -89,14 +70,14 @@ function ProductCard(props) {
             colorScheme="green"
             icon={ <MdRemove size={ 20 } /> }
             zIndex={ 1 }
-            onClick={ () => calculate(quant - 1) }
+            onClick={ () => handleCart(Math.max(amount - 1, 0)) }
             data-testid={ `customer_products__button-card-rm-item-${product.id}` }
           />
 
           <NumberInput
             variant="filled"
             maxW="50%"
-            value={ quant }
+            value={ amount }
           >
             <NumberInputField
               borderRadius="none"
@@ -110,7 +91,7 @@ function ProductCard(props) {
             colorScheme="green"
             icon={ <MdAdd size={ 20 } /> }
             zIndex={ 1 }
-            onClick={ () => calculate(quant + 1) }
+            onClick={ () => handleCart(amount + 1) }
             data-testid={ `customer_products__button-card-add-item-${product.id}` }
           />
         </Stack>
