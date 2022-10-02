@@ -19,17 +19,27 @@
     "lint:styles": "stylelint **/*.css --config .stylelintrc.json --ignore-disables --allow-empty-input"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.9",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@hookform/resolvers": "^2.9.8",
     "@testing-library/jest-dom": "5.16.2",
     "@testing-library/react": "12.1.4",
     "@testing-library/user-event": "13.5.0",
     "axios": "^0.27.2",
+    "framer-motion": "^6.5.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.36.1",
+    "react-icons": "^4.4.0",
     "react-router": "^6.4.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.0",
+    "react-toastify": "^9.0.8",
     "serve": "13.0.2",
-    "web-vitals": "2.1.4"
+    "web-vitals": "2.1.4",
+    "yup": "^0.32.11",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
