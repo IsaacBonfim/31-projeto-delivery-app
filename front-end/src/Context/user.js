@@ -7,7 +7,7 @@ const useUser = create((set) => ({
     if (user) {
       localStorage.user = JSON.stringify(user);
     } else {
-      localStorage.removeItem('user');
+      localStorage.clear();
     }
 
     set({ user });

@@ -4,11 +4,13 @@ import { Button, Stack, Text } from '@chakra-ui/react';
 import useUser from '../Context/user';
 import '../Styles/Header.css';
 import LeftSideNavBar from './LeftSideNavBar';
+import useCart from '../Context/cart';
 
 const HEADER_ELEVATED_IN_VALUE = 10;
 
 function NavBar() {
   const { user, setUser } = useUser();
+  const { clear } = useCart();
   const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
   const [isElevated, setElevated] = useState(scrollPosition > HEADER_ELEVATED_IN_VALUE);
 
@@ -77,7 +79,7 @@ function NavBar() {
             borderLeftRadius="none"
             colorScheme="red"
             rightIcon={ <MdLogout /> }
-            onClick={ () => setUser(null) }
+            onClick={ () => { setUser(null); clear(); } }
             data-testid="customer_products__element-navbar-link-logout"
           >
             Sair

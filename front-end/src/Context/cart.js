@@ -2,10 +2,15 @@ import create from 'zustand';
 
 const useCart = create((set) => ({
   cart: localStorage.cart ? JSON.parse(localStorage.cart) : [],
+
   totalValue: localStorage.cart
     ? Math.round(JSON.parse(localStorage.cart)
       .reduce((acc, cur) => acc + (cur.amount * Number(cur.price)), 0) * 100) / 100
     : 0,
+
+  clear: () => {
+    set({ cart: [], totalValue: 0 });
+  },
 
   handleProduct: (product, amount) => {
     const cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
