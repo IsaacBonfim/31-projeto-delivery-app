@@ -44,7 +44,7 @@ function Products() {
       <SimpleGrid
         as="section"
         columns={ GRID_COLUMNS }
-        mt={ ['112px', null, '64px'] }
+        mt={ ['157px', null, '64px'] }
         p={ 10 }
         spacing={ 10 }
       >

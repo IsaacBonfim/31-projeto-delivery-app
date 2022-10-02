@@ -124,7 +124,7 @@ function Register() {
             colorScheme="green"
             isDisabled={ !isValid }
             isLoading={ isSubmitting }
-            data-testid="common_login__button-login"
+            data-testid="common_register__button-register"
           >
             Cadastrar-se
           </Button>

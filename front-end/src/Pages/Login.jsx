@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -34,6 +34,7 @@ const schema = yup.object({
 
 function Login() {
   const { setUser } = useUser();
+  const navigate = useNavigate();
 
   const {
     formState: { errors, isSubmitting, isValid },
@@ -112,11 +113,10 @@ function Login() {
           </Button>
 
           <Button
-            as={ Link }
-            to="/register"
             colorScheme="green"
             variant="outline"
             isDisabled={ isSubmitting }
+            onClick={ () => navigate('/register') }
             data-testid="common_login__button-register"
           >
             Cadastre-se

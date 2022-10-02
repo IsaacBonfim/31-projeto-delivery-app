@@ -1,19 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAccountCircle, MdLogout } from 'react-icons/md';
 import { Button, Stack, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import useUser from '../Context/user';
 import '../Styles/Header.css';
 
+const HEADER_ELEVATED_IN_VALUE = 10;
+
 function NavBar() {
+  const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
   const { user, setUser } = useUser();
+  const [isElevated, setElevated] = useState(scrollPosition > HEADER_ELEVATED_IN_VALUE);
+
+  useEffect(() => {
+    function handleScroll() {
+      const scroll = document.body.scrollTop
+        || document.documentElement.scrollTop;
+
+      setElevated(scroll > HEADER_ELEVATED_IN_VALUE);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <header>
       <Stack
         as="nav"
         align="center"
-        bgColor="gray.100"
+        backdropFilter="auto"
+        backdropBlur="xl"
+        bgColor="whiteAlpha.800"
+        borderBottom="1px solid"
+        borderColor="gray.300"
+        boxShadow={ isElevated ? 'md' : 'none' }
         direction={ ['column', null, 'row'] }
         justify="space-between"
         left={ 0 }
@@ -22,6 +43,8 @@ function NavBar() {
         pos="fixed"
         right={ 0 }
         top={ 0 }
+        transitionDuration="200ms"
+        zIndex="900"
       >
         <Stack as="section" direction="row" spacing={ 0 }>
           <Button
@@ -44,6 +67,10 @@ function NavBar() {
             Produtos
           </Button>
         </Stack>
+
+        <Text fontSize="2xl" fontWeight="semibold">
+          Delivery App
+        </Text>
 
         <Stack as="section" align="center" direction="row" spacing={ 0 }>
           <Stack

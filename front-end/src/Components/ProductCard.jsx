@@ -50,6 +50,7 @@ function ProductCard(props) {
 
   return (
     <Stack
+      align="center"
       border="1px solid"
       borderColor="gray.300"
       borderRadius="xl"
@@ -59,10 +60,12 @@ function ProductCard(props) {
     >
       <Img
         alt={ product.name }
-        h={ 200 }
+        maxH={ 200 }
         m={ 4 }
+        mt="auto"
         pointerEvents="none"
         src={ product.urlImage }
+        w="auto"
         data-testid={ `customer_products__img-card-bg-image-${product.id}` }
       />
 

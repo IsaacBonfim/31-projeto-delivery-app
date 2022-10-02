@@ -11,7 +11,15 @@ function Img({ src, ...rest }) {
     img.onload = () => setLoaded(true);
   }, []);
 
-  if (!isLoaded) return <Skeleton />;
+  if (!isLoaded) {
+    return (
+      <Skeleton
+        alignSelf="stretch"
+        h={ rest.h }
+        m={ rest.m }
+      />
+    );
+  }
 
   return (
     <CImage

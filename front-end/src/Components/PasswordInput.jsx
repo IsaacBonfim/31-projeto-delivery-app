@@ -21,7 +21,12 @@ function PasswordInput({ register, ...rest }) {
       />
 
       <InputRightElement>
-        <Tooltip label={ showPassword ? 'Esconder' : 'Mostrar' } closeOnClick={ false }>
+        <Tooltip
+          borderRadius="md"
+          closeOnClick={ false }
+          label={ showPassword ? 'Esconder' : 'Mostrar' }
+          placement="top"
+        >
           <IconButton
             aria-label={ showPassword ? 'Esconder' : 'Mostrar' }
             size="sm"
