@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { MdAccountCircle, MdLogout } from 'react-icons/md';
 import { Button, Stack, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 import useUser from '../Context/user';
 import '../Styles/Header.css';
+import LeftSideNavBar from './LeftSideNavBar';
 
 const HEADER_ELEVATED_IN_VALUE = 10;
 
 function NavBar() {
-  const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
   const { user, setUser } = useUser();
+  const scrollPosition = document.body.scrollTop || document.documentElement.scrollTop;
   const [isElevated, setElevated] = useState(scrollPosition > HEADER_ELEVATED_IN_VALUE);
 
   useEffect(() => {
@@ -46,27 +46,7 @@ function NavBar() {
         transitionDuration="200ms"
         zIndex="900"
       >
-        <Stack as="section" direction="row" spacing={ 0 }>
-          <Button
-            as={ Link }
-            to="/customer/products"
-            borderRightRadius="none"
-            colorScheme="green"
-            data-testid="customer_products__element-navbar-link-orders"
-          >
-            Produtos
-          </Button>
-
-          <Button
-            as={ Link }
-            to="/customer/orders"
-            borderLeftRadius="none"
-            colorScheme="blue"
-            data-testid="customer_products__element-navbar-link-products"
-          >
-            Meus Pedidos
-          </Button>
-        </Stack>
+        <LeftSideNavBar />
 
         <Text fontSize="2xl" fontWeight="semibold">
           Delivery App

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, SimpleGrid, toast } from '@chakra-ui/react';
 import { MdShoppingCart } from 'react-icons/md';
-import NavBar from '../Components/NavBar';
-import ProductCard from '../Components/ProductCard';
-import productsApi from '../Services/Api/products';
-import '../Styles/Products.css';
-import useCart from '../Context/cart';
+import NavBar from '../../Components/NavBar';
+import ProductCard from '../../Components/ProductCard';
+import productsApi from '../../Services/Api/products';
+import useCart from '../../Context/cart';
 
 const GRID_COLUMNS = [
   1,
@@ -41,7 +40,7 @@ function Products() {
       <SimpleGrid
         as="section"
         columns={ GRID_COLUMNS }
-        mt={ ['157px', null, '64px'] }
+        mt={ ['157px', null, '65px'] }
         mb="52px"
         p={ 10 }
         spacing={ 10 }

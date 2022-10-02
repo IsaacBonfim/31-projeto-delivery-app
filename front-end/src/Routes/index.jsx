@@ -1,14 +1,19 @@
 import React from 'react';
 import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 
-import Checkout from '../Pages/Checkout';
+import Checkout from '../Pages/customer/Checkout';
+import OrdersCustomer from '../Pages/customer/Orders';
+import Products from '../Pages/customer/Products';
+
+import OrdersSeller from '../Pages/seller/Orders';
+
 import Login from '../Pages/Login';
-import NotFound from '../Pages/NotFound';
-import Orders from '../Pages/Orders';
-import Products from '../Pages/Products';
 import Register from '../Pages/Register';
+import NotFound from '../Pages/NotFound';
+
 import PrivateRoute from './Private.route';
 import ProtectedRoute from './Protected.route';
+
 import useUser from '../Context/user';
 import { ROLES_OPTIONS } from '../Constants';
 
@@ -80,7 +85,17 @@ function Routes() {
         path="/customer/orders"
         element={ (
           <PrivateRoute>
-            <Orders />
+            <OrdersCustomer />
+          </PrivateRoute>
+        ) }
+      />
+
+      <Route
+        exact
+        path="/seller/orders"
+        element={ (
+          <PrivateRoute>
+            <OrdersSeller />
           </PrivateRoute>
         ) }
       />
