@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
-import NavBar from '../../Components/NavBar';
+import NavBar from '../Components/NavBar';
 
 function Orders() {
   return (
