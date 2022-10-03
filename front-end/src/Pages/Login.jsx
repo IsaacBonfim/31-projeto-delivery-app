@@ -1,129 +1,110 @@
-import React, { useCallback } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-
-import { MIN_PASSWORD_LENGTH } from '../Constants';
-import PasswordInput from '../Components/PasswordInput';
-import auth from '../Services/Api/auth';
-import useUser from '../Context/user';
-
-const schema = yup.object({
-  email: yup
-    .string()
-    .required('Forneça seu e-mail')
-    .email('E-mail inválido'),
-
-  password: yup
-    .string()
-    .required('Forneça sua senha')
-    .min(MIN_PASSWORD_LENGTH, 'Senha inválida'),
-});
+import { requestAccess } from '../Services/Axios';
+import appContext from '../Context/AppContext';
+import { setAccessInfo } from '../Services/LocalStorage';
+import '../Styles/Access.css';
 
 function Login() {
-  const { setUser } = useUser();
-  const navigate = useNavigate();
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [errorMessage, setErrorMessage] = useState(false);
+  const { email, btnLoginDisabled, setEmail,
+    setBtnLogin, setName } = useContext(appContext);
 
-  const {
-    formState: { errors, isSubmitting, isValid },
-    handleSubmit,
-    register,
-  } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
+  useEffect(() => {
+    const handleChage = () => {
+      const number = 5;
+      const validEmail = /\S+@\S+\.\S+/.test(email);
 
-  const onSubmit = useCallback(async (form) => {
-    const { message, result } = await auth.login(form);
+      if (password.length > number && validEmail) {
+        setBtnLogin(false);
+      } else {
+        setBtnLogin(true);
+      }
+    };
+    handleChage();
+  }, [email, password, setBtnLogin]);
 
-    if (result) {
-      const { id, ...user } = result;
-      setUser(user);
-    } else {
-      toast(
-        <span data-testid="common_login__element-invalid-email">
-          {message}
-        </span>,
-        { type: 'error' },
-      );
+  const history = useNavigate();
+
+  const validateLogin = async () => {
+    const result = await requestAccess('/login', { email, password });
+    const { role, name } = result;
+
+    switch (role) {
+    case 'administrator':
+      setAccessInfo(result);
+      history('/admin/manage');
+      break;
+    case 'seller':
+      setAccessInfo(result);
+      history('/seller/orders');
+      break;
+    case 'customer':
+      setAccessInfo(result);
+      setName(name);
+      history('/customer/products');
+      break;
+    default: {
+      setLoginError(result.message);
+      setErrorMessage(true);
     }
-  }, []);
+    }
+  };
 
   return (
-    <Center minH="100vh">
-      <Box
-        as="form"
-        bgColor="gray.300"
-        borderRadius="xl"
-        boxShadow="xl"
-        maxW="calc(100vw - 24px)"
-        p={ 5 }
-        w={ 400 }
-        onSubmit={ handleSubmit(onSubmit) }
-      >
-        <Text
-          fontSize="2xl"
-          fontWeight="semibold"
-          mb={ 8 }
-          textAlign="center"
+    <div className="main-container">
+      <h1 className="app-title">Delivery App</h1>
+
+      <div className="login-input-container">
+        <input
+          type="email"
+          name="email"
+          placeholder="Digite seu login(email)"
+          className="access-input"
+          data-testid="common_login__input-email"
+          value={ email }
+          onChange={ ({ target }) => setEmail(target.value) }
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Digite sua senha"
+          className="access-input"
+          data-testid="common_login__input-password"
+          value={ password }
+          onChange={ ({ target }) => setPassword(target.value) }
+        />
+        <button
+          type="button"
+          className="access-button"
+          data-testid="common_login__button-login"
+          disabled={ btnLoginDisabled }
+          onClick={ validateLogin }
         >
-          Delivery App
-        </Text>
+          LOGIN
+        </button>
+      </div>
+      <button
+        type="button"
+        className="access-button"
+        data-testid="common_login__button-register"
+        onClick={ () => history('/register') }
+      >
+        Ainda Não tenho Cadastro
+      </button>
 
-        <FormControl isDisabled={ isSubmitting } isInvalid={ errors.email }>
-          <FormLabel mb={ 0 }>E-mail:</FormLabel>
-
-          <Input
-            type="email"
-            variant="filled"
-            { ...register('email') }
-            data-testid="common_login__input-email"
-          />
-        </FormControl>
-
-        <FormControl isDisabled={ isSubmitting } isInvalid={ errors.password } mt={ 2 }>
-          <FormLabel mb={ 0 }>Senha</FormLabel>
-
-          <PasswordInput
-            variant="filled"
-            register={ register }
-            isDisabled={ isSubmitting }
-            data-testid="common_login__input-password"
-          />
-        </FormControl>
-
-        <Stack direction="row-reverse" mt={ 10 }>
-          <Button
-            type="submit"
-            colorScheme="green"
-            isDisabled={ !isValid }
-            isLoading={ isSubmitting }
-            data-testid="common_login__button-login"
+      { errorMessage
+        && (
+          <p
+            className="error-message"
+            data-testid="common_login__element-invalid-email"
           >
-            Entrar
-          </Button>
-
-          <Button
-            colorScheme="green"
-            variant="outline"
-            isDisabled={ isSubmitting }
-            onClick={ () => navigate('/register') }
-            data-testid="common_login__button-register"
-          >
-            Cadastre-se
-          </Button>
-        </Stack>
-      </Box>
-    </Center>
+            { loginError }
+          </p>
+        )}
+    </div>
   );
 }
 

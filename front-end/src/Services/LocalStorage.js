@@ -1,10 +1,17 @@
 const CART = 'cart';
 const TOTAL = 'total';
-// const USER = 'user';
+const USER = 'user';
 
-// export function setAccessInfo(user) {
-//   localStorage.setItem(USER, JSON.stringify(user));
-// }
+export function setAccessInfo(user) {
+  const userLocal = {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    token: user.token,
+  };
+
+  localStorage.setItem(USER, JSON.stringify(userLocal));
+}
 
 export function setCart(cart) {
   localStorage.setItem(CART, JSON.stringify(cart));
