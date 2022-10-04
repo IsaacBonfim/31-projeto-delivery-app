@@ -4,6 +4,7 @@ const USER = 'user';
 
 export function setAccessInfo(user) {
   const userLocal = {
+    id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
@@ -19,6 +20,11 @@ export function setCart(cart) {
 
 export function setTotal(total) {
   localStorage.setItem(TOTAL, JSON.stringify(total));
+}
+
+export function getUser() {
+  const user = localStorage.getItem(USER);
+  return JSON.parse(user);
 }
 
 export function getCart() {

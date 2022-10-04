@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const throwError = require('../utils/errorHandler');
+const { validateToken } = require('../utils/token');
 const { Products, Sales, Users, SalesProducts } = require('../../database/models');
 
 const SalesService = {
@@ -60,7 +61,8 @@ const SalesService = {
     return created;
   },
 
-  async createSale(body) {
+  async createSale(body, headers) {
+    validateToken(headers);
     await this.userAndSellerVerify(body);
     let sale;
 
@@ -83,6 +85,13 @@ const SalesService = {
     ));
 
     return id;
+  },
+
+  async sellerList() {
+    const role = 'seller';
+    const sellers = await Users.findAll({ where: { role }, raw: true });
+
+    return sellers;
   },
 };
 

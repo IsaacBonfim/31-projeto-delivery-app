@@ -41,7 +41,7 @@ const attributes = {
   deliveryNumber: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: 'created_at'
+    field: 'delivery_number'
   },
   saleDate: {
     defaultValue: Sequelize.fn('NOW'),
