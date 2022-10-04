@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const md5 = require('md5');
 const throwError = require('../utils/errorHandler');
-const createToken = require('../utils/token');
+const { createToken } = require('../utils/token');
 const { Users } = require('../../database/models');
 
 const LoginService = {
