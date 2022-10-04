@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { readFile } = require('./readFile');
+const throwError = require('./errorHandler');
 
 const secret = readFile();
 
@@ -10,4 +11,28 @@ const createToken = ({ id, name, role, email }) => {
   return { token, id, role, name, email };
 };
 
-module.exports = createToken;
+const validateToken = ({ authorization }) => {
+  if (!authorization) {
+    throwError('unauthorized', 'Invalid Token');
+  }
+
+  let token = '';
+
+  if (authorization.split(' ').length > 1) {
+    [, token] = authorization.split(' ');
+  } else {
+    token = authorization;
+  }
+
+  try {
+    const { data } = jwt.verify(token, secret);
+    return data;
+  } catch (error) {
+    throwError('unauthorized', 'Invalid or Expired Token');
+  }
+};
+
+module.exports = {
+  createToken,
+  validateToken,
+};
