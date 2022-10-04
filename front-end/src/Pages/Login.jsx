@@ -55,7 +55,7 @@ function Login() {
 
   return (
     <div className="main-container">
-      <h1 className="app-title">Delivery App</h1>
+      <h1 className="app-title">Drink App</h1>
 
       <div className="login-input-container">
         <input
