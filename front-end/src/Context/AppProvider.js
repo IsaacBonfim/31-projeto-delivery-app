@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import appContext from './AppContext';
-import { requestProducts } from '../Services/Axios';
+import { requestProducts, requestSellers } from '../Services/Axios';
 
 function AppProvider({ children }) {
   const [email, setEmail] = useState('');
@@ -9,11 +9,18 @@ function AppProvider({ children }) {
   const [btnLoginDisabled, setBtnLogin] = useState(true);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [sellers, setSellers] = useState([]);
 
   const productsRequest = async () => {
     const prodList = await requestProducts('/customer/products');
 
     setProducts(prodList);
+  };
+
+  const sellersRequest = async () => {
+    const sellersList = await requestSellers('/customer/sellers');
+
+    setSellers(sellersList);
   };
 
   const memo = useMemo(() => {
@@ -23,16 +30,19 @@ function AppProvider({ children }) {
       name,
       products,
       cart,
+      sellers,
       setEmail,
       setBtnLogin,
       setName,
       setProducts,
       setCart,
+      setSellers,
       productsRequest,
+      sellersRequest,
     };
 
     return objApp;
-  }, [email, btnLoginDisabled, name, products, cart]);
+  }, [email, btnLoginDisabled, name, products, cart, sellers]);
 
   return (
     <appContext.Provider value={ memo }>
