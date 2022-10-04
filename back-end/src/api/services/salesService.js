@@ -88,7 +88,7 @@ const SalesService = {
   },
 
   async sellerList() {
-    const role = 'seller'
+    const role = 'seller';
     const sellers = await Users.findAll({ where: { role }, raw: true });
 
     return sellers;
