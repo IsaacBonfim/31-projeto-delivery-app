@@ -6,7 +6,7 @@ const attributes = {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false,
   },
   userId: {
     type: DataTypes.INTEGER,
@@ -15,8 +15,8 @@ const attributes = {
     field: 'user_id',
     references: {
       model: 'users',
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   sellerId: {
     type: DataTypes.INTEGER,
@@ -25,33 +25,33 @@ const attributes = {
     field: 'seller_id',
     references: {
       model: 'users',
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   totalPrice: {
     type: DataTypes.DECIMAL(9, 2),
     allowNull: false,
-    field: 'total_price'
+    field: 'total_price',
   },
   deliveryAddress: {
     type: DataTypes.STRING,
     allowNull: false,
-    field: 'delivery_address'
+    field: 'delivery_address',
   },
   deliveryNumber: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: 'delivery_number'
+    field: 'delivery_number',
   },
   saleDate: {
     defaultValue: Sequelize.fn('NOW'),
     type: DataTypes.DATE,
-    field: 'sale_date'
+    field: 'sale_date',
   },
   status: {
     defaultValue: 'Pendente',
-    type: DataTypes.STRING
-  }
+    type: DataTypes.STRING,
+  },
 };
 
 /** @param {import('sequelize').Sequelize} sequelize */
