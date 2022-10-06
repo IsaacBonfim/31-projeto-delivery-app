@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { requestAccess } from '../Services/Axios';
 import appContext from '../Context/AppContext';
-import { setAccessInfo } from '../Services/LocalStorage';
+import { setAccessInfo, getUser } from '../Services/LocalStorage';
 import '../Styles/Access.css';
 
 function Login() {
@@ -11,6 +11,29 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState(false);
   const { email, btnLoginDisabled, setEmail,
     setBtnLogin, setName } = useContext(appContext);
+
+  const history = useNavigate();
+
+  useEffect(() => {
+    const user = getUser();
+
+    if (user) {
+      switch (user.role) {
+      case 'administrator':
+        history('/admin/manage');
+        break;
+      case 'seller':
+        history('/seller/orders');
+        break;
+      case 'customer':
+        history('/customer/products');
+        break;
+      default: {
+        history('/notfound');
+      }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const handleChage = () => {
@@ -25,8 +48,6 @@ function Login() {
     };
     handleChage();
   }, [email, password, setBtnLogin]);
-
-  const history = useNavigate();
 
   const validateLogin = async () => {
     const result = await requestAccess('/login', { email, password });
