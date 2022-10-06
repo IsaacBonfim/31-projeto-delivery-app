@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import appContext from '../Context/AppContext';
-import NavBar from '../Components/NavBar';
-import ProductCard from '../Components/ProductCard';
-import { setTotal as setTotalLocal } from '../Services/LocalStorage';
-import '../Styles/Products.css';
+import appContext from '../../Context/AppContext';
+import NavBar from '../../Components/NavBar';
+import ProductCard from '../../Components/ProductCard';
+import { setTotal as setTotalLocal } from '../../Services/LocalStorage';
+import '../../Styles/Products.css';
 
 function Products() {
   const [total, setTotal] = useState(0);

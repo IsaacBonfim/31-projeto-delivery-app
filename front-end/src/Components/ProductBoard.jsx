@@ -74,6 +74,7 @@ function ProductBoard(props) {
             >
               <button
                 type="button"
+                className="btn"
                 onClick={ () => removeProduct(item.id) }
               >
                 Remover
