@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import appContext from './AppContext';
-import { requestProducts, requestSellers } from '../Services/Axios';
+import { requestProducts, requestSellers, requestOrder } from '../Services/Axios';
 
 function AppProvider({ children }) {
   const [email, setEmail] = useState('');
@@ -10,6 +10,7 @@ function AppProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [sellers, setSellers] = useState([]);
+  const [customerOrders, setCustomerOrders] = useState([]);
 
   const productsRequest = async () => {
     const prodList = await requestProducts('/customer/products');
@@ -23,6 +24,12 @@ function AppProvider({ children }) {
     setSellers(sellersList);
   };
 
+  const ordersRequest = async (endpoint) => {
+    const customerOrdersList = await requestOrder(endpoint);
+
+    setCustomerOrders(customerOrdersList);
+  };
+
   const memo = useMemo(() => {
     const objApp = {
       email,
@@ -31,18 +38,21 @@ function AppProvider({ children }) {
       products,
       cart,
       sellers,
+      customerOrders,
       setEmail,
       setBtnLogin,
       setName,
       setProducts,
       setCart,
       setSellers,
+      setCustomerOrders,
       productsRequest,
       sellersRequest,
+      ordersRequest,
     };
 
     return objApp;
-  }, [email, btnLoginDisabled, name, products, cart, sellers]);
+  }, [email, btnLoginDisabled, name, products, cart, sellers, customerOrders]);
 
   return (
     <appContext.Provider value={ memo }>
