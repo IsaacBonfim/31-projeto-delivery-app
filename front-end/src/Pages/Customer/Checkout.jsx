@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import appContext from '../Context/AppContext';
-import { getCart, getTotal, getUser } from '../Services/LocalStorage';
-import { requestOrder } from '../Services/Axios';
-import NavBar from '../Components/NavBar';
-import ProductBoard from '../Components/ProductBoard';
+import appContext from '../../Context/AppContext';
+import { getCart, getTotal, getUser } from '../../Services/LocalStorage';
+import { requestOrder } from '../../Services/Axios';
+import NavBar from '../../Components/NavBar';
+import ProductBoard from '../../Components/ProductBoard';
+import '../../Styles/Checkout.css';
 
 function Checkout() {
   const cart = getCart();
@@ -55,9 +56,9 @@ function Checkout() {
   };
 
   return (
-    <div className="products-container">
+    <div className="checkout-container">
       <NavBar />
-      <section>
+      <section className="checkout-product-list-container">
         <h1>Finalizar Pedidos</h1>
         <ProductBoard cart={ cart } />
         <span
@@ -66,7 +67,7 @@ function Checkout() {
           { `Total: ${total.toFixed(2).replace('.', ',')}` }
         </span>
       </section>
-      <section>
+      <section className="checkout-delivery-details-container">
         <h1>Detalhes e Endereços para Entrega</h1>
         <span>Vendedor Responsável:</span>
         { sellers !== undefined && sellers !== null && sellers.length > 0 && (

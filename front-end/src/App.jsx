@@ -7,9 +7,9 @@ import { BrowserRouter as Router,
 import AppProvider from './Context/AppProvider';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
-import Products from './Pages/Products';
-import Checkout from './Pages/Checkout';
-import Orders from './Pages/Orders';
+import Products from './Pages/Customer/Products';
+import Checkout from './Pages/Customer/Checkout';
+import Orders from './Pages/Customer/Orders';
 import NotFound from './Pages/NotFound';
 import './Styles/App.css';
 
