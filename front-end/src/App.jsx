@@ -10,6 +10,7 @@ import Register from './Pages/Register';
 import Products from './Pages/Customer/Products';
 import Checkout from './Pages/Customer/Checkout';
 import Orders from './Pages/Customer/Orders';
+import OrderDetails from './Pages/Customer/OrderDetails';
 import NotFound from './Pages/NotFound';
 import './Styles/App.css';
 
@@ -32,7 +33,8 @@ function App() {
           />
           <Route exact path="/customer/products" element={ <Products /> } />
           <Route exact path="/customer/checkout" element={ <Checkout /> } />
-          <Route exact path="/customer/orders/:id" element={ <Orders /> } />
+          <Route exact path="/customer/orders" element={ <Orders /> } />
+          <Route exact path="/customer/orders/:id" element={ <OrderDetails /> } />
           <Route exact path="/*" element={ <NotFound /> } />
         </Routes>
       </AppProvider>
