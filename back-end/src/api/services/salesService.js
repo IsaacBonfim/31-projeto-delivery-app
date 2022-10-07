@@ -2,6 +2,7 @@ const Joi = require('joi');
 const throwError = require('../utils/errorHandler');
 const { validateToken } = require('../utils/token');
 const { Products, Sales, Users, SalesProducts } = require('../../database/models');
+const { getProductById } = require('./productsService');
 
 const SalesService = {
   validateSaleProduct(saleProduct) {
@@ -59,6 +60,26 @@ const SalesService = {
     if (!created) return throwError('conflict', 'Error in products!');
 
     return created;
+  },
+
+  async getProductsBySaleId(saleId) {
+    const result = await SalesProducts.findAll({ where: { saleId } });
+    const newResult = result.map((item) => item.toJSON());
+    
+    const products = await Promise.all(newResult.map((item) => (
+      getProductById(item.productId)
+    )));
+
+    const newProducts = products.map((product) => {
+      const sale = newResult.find((item) => product.id === item.productId);
+      const newProduct = { ...product, quantity: sale.quantity };
+
+      newProduct.subTotal = newProduct.quantity * Number(newProduct.price).toFixed(2);
+
+      return newProduct;
+    });
+    
+    return newProducts;
   },
 
   async createSale(body, headers) {
