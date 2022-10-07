@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appContext from '../../Context/AppContext';
 import { getCart, getTotal, getUser } from '../../Services/LocalStorage';
-import { requestOrder } from '../../Services/Axios';
+import { requestCheckout } from '../../Services/Axios';
 import NavBar from '../../Components/NavBar';
 import ProductBoard from '../../Components/ProductBoard';
 import '../../Styles/Checkout.css';
@@ -47,8 +47,7 @@ function Checkout() {
       salesProducts: orderCart,
     };
 
-    const result = await requestOrder('/customer/orders', order, { headers });
-    console.log(result);
+    const result = await requestCheckout('/customer/orders', order, { headers });
 
     if (!result.message) {
       history(`/customer/orders/${result.id}`);

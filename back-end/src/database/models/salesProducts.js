@@ -9,8 +9,8 @@ const attributes = {
     field: 'sale_id',
     references: {
       model: 'sales',
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   productId: {
     type: DataTypes.INTEGER,
@@ -19,13 +19,13 @@ const attributes = {
     field: 'product_id',
     references: {
       model: 'products',
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   quantity: {
     type: DataTypes.INTEGER,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 };
 
 /** @param {import('sequelize').Sequelize} sequelize */
@@ -48,7 +48,7 @@ module.exports = (sequelize) => {
       through: SalesProducts,
       foreignKey: 'productId',
       otherKey: 'saleId',
-      as: 'product'
+      as: 'product',
     });
   };
   return SalesProducts;

@@ -19,7 +19,12 @@ export const requestSellers = async (endpoint) => {
   return data;
 };
 
-export const requestOrder = (endpoint, body, token) => api
+export const requestCheckout = (endpoint, body, token) => api
   .post(endpoint, body, token)
   .then(({ data }) => (data))
   .catch((error) => error.response);
+
+export const requestOrder = async (endpoint) => {
+  const { data } = await api.get(endpoint).catch((error) => error.response);
+  return data;
+};
