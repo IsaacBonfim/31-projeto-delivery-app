@@ -1,4 +1,6 @@
+const LoginService = require('../services/loginService');
 const OrderServices = require('../services/orderService');
+const SalesService = require('../services/salesService');
 
 const OrderController = {
   async getAll(_req, res, next) {
@@ -18,12 +20,21 @@ const OrderController = {
       OrderServices.validateId(params);
       const id = Number(params.id);
 
-      const orders = await OrderServices.getById(id);
+      const { sellerId, saleDate, status, totalPrice } = await OrderServices.getById(id);
+      const sellerName = await LoginService.getNameById(sellerId);
+      const products = await SalesService.getProductsBySaleId(id);
+
+      const orders = {
+        id,
+        sellerName,
+        saleDate,
+        status,
+        totalPrice,
+        products,
+      };
 
       return res.status(200).json(orders);
-    } catch (error) {
-      next(error);
-    }
+    } catch (error) { next(error); }
   },
 
   async getByCostumerId(req, res, next) {
