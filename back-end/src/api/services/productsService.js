@@ -8,16 +8,16 @@ const findAll = async () => {
   return products;
 };
 
-// const findById = async (params) => {
-//   try {
-//     const result = await Products.findByPk(params);
-//     const { id, name, price, urlImage } = result;
+const getProductById = async (params) => {
+  try {
+    const result = await Products.findByPk(params);
+    const { id, name, price } = result;
 
-//     return { id, name, price, urlImage };
-//   } catch (error) {
-//     return { status: 404, message: 'Product not found' };
-//   }
-// };
+    return { id, name, price };
+  } catch (error) {
+    return { status: 404, message: 'Product not found' };
+  }
+};
 
 // const getImage = async (url) => {
 //   const data = await fs.readFileSync(path.join(__dirname, `../../images/${url}`));
@@ -27,7 +27,7 @@ const findAll = async () => {
 
 module.exports = {
   findAll,
-  // findById,
+  getProductById,
   // getImage,
 };
 

@@ -28,6 +28,14 @@ const LoginService = {
     const createdToken = createToken({ id, name, role, email });
     return createdToken;
   },
+
+  async getNameById(id) {
+    const user = await Users.findByPk(id, { raw: true });
+
+    if (!user) return throwError('notFound', 'User not Found');
+
+    return user.name;
+  },
 };
 
 module.exports = LoginService;

@@ -17,7 +17,7 @@ function Orders() {
   return (
     <div className="products-container">
       <NavBar />
-      <h1>Tela dos meus Pedidos</h1>
+      <h1>Meus Pedidos</h1>
       <section>
         { customerOrders.length > 0 && (
           customerOrders.map((order, index) => (
