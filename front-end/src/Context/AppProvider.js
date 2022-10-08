@@ -11,7 +11,7 @@ function AppProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [sellers, setSellers] = useState([]);
-  const [customerOrders, setCustomerOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [details, setDetails] = useState({});
 
   const productsRequest = async () => {
@@ -27,9 +27,9 @@ function AppProvider({ children }) {
   };
 
   const ordersRequest = async (endpoint) => {
-    const customerOrdersList = await requestOrder(endpoint);
+    const ordersList = await requestOrder(endpoint);
 
-    setCustomerOrders(customerOrdersList);
+    setOrders(ordersList);
   };
 
   const detailsRequest = async (id) => {
@@ -46,7 +46,7 @@ function AppProvider({ children }) {
       products,
       cart,
       sellers,
-      customerOrders,
+      orders,
       details,
       setEmail,
       setBtnLogin,
@@ -54,7 +54,7 @@ function AppProvider({ children }) {
       setProducts,
       setCart,
       setSellers,
-      setCustomerOrders,
+      setOrders,
       setDetails,
       productsRequest,
       sellersRequest,
@@ -63,7 +63,7 @@ function AppProvider({ children }) {
     };
 
     return objApp;
-  }, [email, btnLoginDisabled, name, products, cart, sellers, customerOrders, details]);
+  }, [email, btnLoginDisabled, name, products, cart, sellers, orders, details]);
 
   return (
     <appContext.Provider value={ memo }>
