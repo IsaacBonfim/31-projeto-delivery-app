@@ -5,22 +5,28 @@ import OrderCard from '../../Components/OrderCard';
 import { getUser } from '../../Services/LocalStorage';
 
 function Orders() {
-  const { customerOrders, ordersRequest } = useContext(appContext);
+  const { orders, ordersRequest } = useContext(appContext);
+  const { id, role } = getUser();
 
   useEffect(() => {
-    const { id } = getUser();
-    const endpoint = `/orders/customer/${id}`;
+    if (role === 'customer') {
+      const endpoint = `/orders/customer/${id}`;
 
-    ordersRequest(endpoint);
+      ordersRequest(endpoint);
+    } else {
+      const endpoint = `/orders/seller/${id}`;
+
+      ordersRequest(endpoint);
+    }
   }, []);
 
   return (
     <div className="products-container">
       <NavBar />
-      <h1>Meus Pedidos</h1>
+      <h1>{ role === 'customer' ? 'Meus Pedidos' : 'Pedidos' }</h1>
       <section>
-        { customerOrders.length > 0 && (
-          customerOrders.map((order, index) => (
+        { orders.length > 0 && (
+          orders.map((order, index) => (
             <OrderCard key={ index } order={ order } />
           ))
         )}
