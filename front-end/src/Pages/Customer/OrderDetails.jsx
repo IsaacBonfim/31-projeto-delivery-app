@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import appContext from '../../Context/AppContext';
 import NavBar from '../../Components/NavBar';
 import DetailsBoard from '../../Components/DetailsBoard';
+import { getUser } from '../../Services/LocalStorage';
 
 function OrderDetails() {
   const { details, detailsRequest } = useContext(appContext);
   const { id } = useParams();
+  const { role } = getUser();
 
   useEffect(() => {
     detailsRequest(id);
@@ -15,8 +17,6 @@ function OrderDetails() {
   return (
     <div className="checkout-container">
       <NavBar />
-      { console.log(details) }
-
       <h1>Detalhes do Pedido</h1>
 
       { details.id !== undefined && (
@@ -24,7 +24,9 @@ function OrderDetails() {
       ) }
 
       <span
-        data-testid="customer_order_details__element-order-total-price"
+        data-testid={ role === 'customer'
+          ? 'customer_order_details__element-order-total-price'
+          : 'seller_order_details__element-order-total-price' }
       >
         { `Total: R$ ${Number(details.totalPrice).toFixed(2).replace('.', ',')}` }
       </span>
