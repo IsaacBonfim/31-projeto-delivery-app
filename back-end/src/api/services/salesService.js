@@ -114,6 +114,14 @@ const SalesService = {
 
     return sellers;
   },
+
+  async updateSale(id, status) {
+    const sale = await Sales.update(
+      { status }, { where: { id }, raw: true },
+    );
+
+    return sale;
+  },
 };
 
 module.exports = SalesService;

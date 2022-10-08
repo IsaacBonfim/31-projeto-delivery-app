@@ -37,6 +37,28 @@ const OrderController = {
     } catch (error) { next(error); }
   },
 
+  async updateSale(req, res) {
+    const { id } = req.params;
+    const newStatus = req.body.status;
+
+    await SalesService.updateSale(id, newStatus);
+
+    const { sellerId, saleDate, status, totalPrice } = await OrderServices.getById(id);
+    const sellerName = await LoginService.getNameById(sellerId);
+    const products = await SalesService.getProductsBySaleId(id);
+
+    const orders = {
+      id,
+      sellerName,
+      saleDate,
+      status,
+      totalPrice,
+      products,
+    };
+
+    res.status(200).json(orders);
+  },
+
   async getByCostumerId(req, res, next) {
     const { params } = req;
 
