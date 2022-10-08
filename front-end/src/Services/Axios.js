@@ -33,3 +33,8 @@ export const requestDetails = async (endpoint) => {
   const { data } = await api.get(endpoint).catch((error) => error.response);
   return data;
 };
+
+export const updateSaleRequest = async (endpoint, body) => {
+  const { data } = await api.put(endpoint, body).catch((error) => error.response);
+  return data;
+};
