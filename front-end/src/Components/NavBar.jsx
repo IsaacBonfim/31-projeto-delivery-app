@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appContext from '../Context/AppContext';
+import { getUser } from '../Services/LocalStorage';
 import '../Styles/Header.css';
 
 function NavBar() {
   const { name } = useContext(appContext);
+  const { role } = getUser();
 
   const history = useNavigate();
 
@@ -18,22 +20,26 @@ function NavBar() {
     <header className="header">
       <nav className="ProductNav">
         <section className="left section">
-          <button
-            type="button"
-            className="nav btn"
-            data-testid="customer_products__element-navbar-link-products"
-            onClick={ () => history('/customer/products') }
-          >
-            Produtos
-          </button>
-          <button
-            type="button"
-            className="nav btn"
-            data-testid="customer_products__element-navbar-link-orders"
-            onClick={ () => history('/customer/orders') }
-          >
-            Meus Pedidos
-          </button>
+          { role === 'customer' && (
+            <button
+              type="button"
+              className="nav btn"
+              data-testid="customer_products__element-navbar-link-products"
+              onClick={ () => history('/customer/products') }
+            >
+              Produtos
+            </button>
+          ) }
+          { role !== 'administrator' && (
+            <button
+              type="button"
+              className="nav btn"
+              data-testid="customer_products__element-navbar-link-orders"
+              onClick={ () => history('/customer/orders') }
+            >
+              { role === 'customer' ? 'Meus Pedidos' : 'Pedidos' }
+            </button>
+          ) }
         </section>
         <section className="right section">
           <p
